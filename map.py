@@ -1,3 +1,5 @@
+import random
+
 # Map class
 class Map:
     # Constant for maximum population density allowed
@@ -17,3 +19,14 @@ class Map:
             'road': road,
             'population_density': population_density
         }
+
+    # Adds a random location to the map within the confines of map_size
+    def add_random_location(self):
+        # Randomize location details
+        x = random.uniform(0.0, self.map_size)
+        y = random.uniform(0.0, self.map_size)
+        coordinates = (x, y)
+        road = random.choice([True, False])
+        population_density = random.uniform(1.0, self.max_population_density)
+
+        self.add(coordinates, road, population_density)
