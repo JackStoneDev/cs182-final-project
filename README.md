@@ -2,5 +2,5 @@
 
 ## Running locally
 
-`pip2 install numpy matplotlib`
-`python2 csp.py`
+- `pip2 install numpy matplotlib`
+- `python2 csp.py`
