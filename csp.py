@@ -1,8 +1,10 @@
 from map import Map
+from simulated_annealing import SimulatedAnnealing
 
 data_map = Map(1000)
 
 for i in range(100):
     data_map.add_random_location()
 
-print data_map.coordinates
+SA = SimulatedAnnealing()
+SA.anneal(data_map)
