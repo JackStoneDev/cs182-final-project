@@ -29,4 +29,5 @@ class Map:
         road = random.choice([True, False])
         population_density = random.uniform(1.0, self.max_population_density)
 
+        # Add to map
         self.add(coordinates, road, population_density)
