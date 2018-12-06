@@ -1,10 +1,11 @@
 import random
 import numpy as np
 import math
+from plot import Plot
 
 # Simulated annealing class
 class SimulatedAnnealing:
-    max_distance = 2
+    max_distance = 1
 
     # Calculates "cost" of a particular map by taking the average over all locations of minimum distance to another node
     def cost(self, map):
@@ -89,6 +90,10 @@ class SimulatedAnnealing:
 
     # Performs simulated annealing on a city map
     def anneal(self, map):
+        # Plot old map
+        plot = Plot()
+        plot.plot(map)
+
         # Get cost of the input
         old_cost = self.cost(map)
 
@@ -104,6 +109,10 @@ class SimulatedAnnealing:
             # Generate 100 unique neighbors
             while i <= 100:
                 new_map = self.neighbor(map)
+
+                # Plot new map
+                plot.plot(new_map)
+                
                 new_cost = self.cost(new_map)
                 ap = self.acceptance_probability(old_cost, new_cost, T)
 
