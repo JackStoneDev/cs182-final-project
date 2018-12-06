@@ -4,7 +4,7 @@ import math
 
 # Simulated annealing class
 class SimulatedAnnealing:
-    max_distance = 100
+    max_distance = 2
 
     # Calculates "cost" of a particular map by taking the average over all locations of minimum distance to another node
     def cost(self, map):
