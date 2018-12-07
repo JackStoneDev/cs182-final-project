@@ -5,30 +5,33 @@ from plot import Plot
 
 # Simulated annealing class
 class SimulatedAnnealing:
-    max_distance = 1
+    max_distance = 50
 
     # Calculates "cost" of a particular map by taking the average over all locations of minimum distance to another node
     def cost(self, map):
-        # Get all coordinates of map
+        # Get all dropoff zones of map
+        dropoff_zones = map.dropoff_zones.keys()
+
+        # Get all locations on the map
         coordinates = map.coordinates.keys()
 
-        # Get the number of coordinates that we have and initialize a sum to take the average later
+        # Get the number of locations that we have and initialize a sum to take the average later
         num_coordinates = len(coordinates)
         sum = 0.0
 
-        # Loop through coordinates
+        # Loop through dropoff_zones
         for location in coordinates:
             # Initialize minimum distance
             min_distance = float('inf')
 
-            # Loop through neighbors
-            for neighbor in coordinates:
+            # Loop through locations on map
+            for zone in dropoff_zones:
                 # If the neighbor is the same point, then skip
-                if location == neighbor:
+                if location == zone:
                     continue
 
                 # Calculate Euclidean distance to neighbor
-                distance = np.linalg.norm(np.subtract(location, neighbor))
+                distance = np.linalg.norm(np.subtract(location, zone))
 
                 # Minimize over all distances
                 min_distance = min(min_distance, distance)
@@ -39,38 +42,41 @@ class SimulatedAnnealing:
         # Return average of distances
         return sum / num_coordinates
 
-    # Generates neighboring state of given map by randomly moving locations around until all locations are within an arbitrary distance from one another
+    # Generates neighboring state of given map by randomly moving dropoff zones around until all locations are within an arbitrary distance from a dropoff zone
     def neighbor(self, map):
-        # Check if all locations are within an arbitrary distance of another location
+        # Check if all locations are within an arbitrary distance of a dropoff zone
         all_within_distance = False
 
         while not all_within_distance:
             all_within_distance = True
 
-            # Swap a random location in the map
-            random_location = random.choice(map.coordinates.keys())
-            del map.coordinates[random_location]
-            map.add_random_location()
+            # Swap a random dropoff zone in the map
+            random_dropoff_zone = random.choice(map.dropoff_zones.keys())
+            del map.dropoff_zones[random_dropoff_zone]
+            map.add_random_dropoff_zone()
 
             # Get all coordinates of map
             coordinates = map.coordinates.keys()
+
+            # Get all dropoff zones of map
+            dropoff_zones = map.dropoff_zones.keys()
 
             # Loop through coordinates
             for location in coordinates:
                 # Initialize minimum distance
                 min_distance = float('inf')
 
-                # Track if the location is within an arbitrary distance from any other node
+                # Track if the location is within an arbitrary distance from a dropoff zone
                 location_within_distance = False
 
                 # Loop through neighbors
-                for neighbor in coordinates:
+                for zone in dropoff_zones:
                     # If the neighbor is the same point, then skip
-                    if location == neighbor:
+                    if location == zone:
                         continue
 
                     # Calculate Euclidean distance to neighbor
-                    distance = np.linalg.norm(np.subtract(location, neighbor))
+                    distance = np.linalg.norm(np.subtract(location, zone))
 
                     # Is this distance within the arbitrary distance?
                     if distance <= self.max_distance:
@@ -110,19 +116,19 @@ class SimulatedAnnealing:
             while i <= 100:
                 new_map = self.neighbor(map)
 
-                # Plot new map
-                plot.plot(new_map)
-                
                 new_cost = self.cost(new_map)
                 ap = self.acceptance_probability(old_cost, new_cost, T)
 
                 # If new solution is accepted then we update
                 if ap > random.random():
-                    map.coordinates = new_map.coordinates
+                    map.dropoff_zones = new_map.dropoff_zones
                     old_cost = new_cost
 
                 i += 1
 
             T *= alpha
+
+        # Plot new map
+        plot.plot(new_map, False)
 
         return map
