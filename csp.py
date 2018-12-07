@@ -1,9 +1,9 @@
 from map import Map
 from simulated_annealing import SimulatedAnnealing
 
-data_map = Map(100)
+data_map = Map(30)
 
-for i in range(100):
+for i in range(20):
     data_map.add_random_location()
 
 for i in range(5):

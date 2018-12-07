@@ -5,7 +5,7 @@ from plot import Plot
 
 # Simulated annealing class
 class SimulatedAnnealing:
-    max_distance = 50
+    max_distance = 10
 
     # Calculates "cost" of a particular map by taking the average over all locations of minimum distance to another node
     def cost(self, map):
@@ -105,7 +105,7 @@ class SimulatedAnnealing:
 
         # Initialize annealing values
         T = 1.0
-        T_min = 0.00001
+        T_min = 0.01
         alpha = 0.9
 
         # Iterate until we hit the max number of iterations
