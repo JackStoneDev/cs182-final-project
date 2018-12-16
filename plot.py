@@ -7,6 +7,10 @@ class Plot:
         # Clear all previous points
         plt.clf()
 
+        # Set axis limits
+        plt.xlim(0, map.map_size)
+        plt.ylim(0, map.map_size)
+
         # Break up x and y coordinates into their own list
         x, y = zip(*map.coordinates)
         x = list(x)
