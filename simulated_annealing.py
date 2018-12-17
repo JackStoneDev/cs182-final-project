@@ -37,7 +37,7 @@ class SimulatedAnnealing:
                 min_distance = min(min_distance, distance)
 
             # Add minimum distance to sum
-            sum += min_distance
+            sum += min_distance + (min_distance / self.max_distance) * map.coordinates[location]['population_density']
 
         # Return average of distances
         return sum / num_coordinates
