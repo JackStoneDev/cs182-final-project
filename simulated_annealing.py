@@ -19,12 +19,12 @@ class SimulatedAnnealing:
         num_coordinates = len(coordinates)
         sum = 0.0
 
-        # Loop through dropoff_zones
+        # Loop through locations on map
         for location in coordinates:
             # Initialize minimum distance
             min_distance = float('inf')
 
-            # Loop through locations on map
+            # Loop through dropoff zones
             for zone in dropoff_zones:
                 # If the neighbor is the same point, then skip
                 if location == zone:
