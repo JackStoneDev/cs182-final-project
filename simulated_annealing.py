@@ -113,7 +113,11 @@ class SimulatedAnnealing:
             if self.type == 4:
                 return math.exp(1 / T)
             else:
-                return math.exp((new_cost - old_cost) / T)
+                if new_cost <= old_cost:
+                    return 1
+                else:
+                    ap = math.exp((old_cost - new_cost) / 10000 / T)
+                    return ap
         except OverflowError:
             return float('inf')
 
@@ -127,24 +131,26 @@ class SimulatedAnnealing:
         T_min = 0.01
         alpha = 0.9
 
+        final_map = copy.deepcopy(map)
+
         # Iterate until we hit the max number of iterations
         while T > T_min:
             i = 1
 
             # Generate 100 unique neighbors
-            while i <= 100:
+            while i <= 50:
                 new_map = self.neighbor(map)
-
                 new_cost = self.cost(new_map)
                 ap = self.acceptance_probability(old_cost, new_cost, T)
 
                 # If new solution is accepted then we update
-                if ap > random.random() or new_cost < old_cost:
-                    map.dropoff_zones = copy.deepcopy(new_map.dropoff_zones)
+                if ap >= .5:
+                    map = copy.deepcopy(new_map)
+                    final_map = copy.deepcopy(new_map)
                     old_cost = new_cost
 
                 i += 1
 
             T *= alpha
 
-        return map
+        return final_map
