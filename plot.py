@@ -35,13 +35,4 @@ class Plot:
         # Plot dropoff zones
         plt.scatter(x, y, c='r')
 
-        # Show plot
-        plt.draw()
-
         plt.savefig('results/simulated_annealing_%d.png' % type)
-
-        # Are we continuing with the graph display?
-        if should_pause:
-            plt.pause(0.0001)
-        else:
-            plt.pause(5)

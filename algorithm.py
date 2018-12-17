@@ -14,30 +14,41 @@ for i in range(20):
 for i in range(5):
     data_map.add_random_dropoff_zone()
 
-# Show initial map cost
-SA_final = SimulatedAnnealing(3)
-print 'Initial map cost: %d' % SA_final.cost(data_map)
+averages = [0.0] * 6
 
-# Plot initial map
-plot = Plot()
-plot.plot(data_map, False)
+for i in range(0, 100):
+    # Show initial map cost
+    SA_final = SimulatedAnnealing(3)
+    initial_map_cost = SA_final.cost(data_map)
+    print 'Initial map cost: %d' % initial_map_cost
+    averages[0] += initial_map_cost
 
-# Run simulated annealing experiments
-for i in range(1, 5):
-    print 'Running simulated annealing for type %d:' % i
+    # Plot initial map
+    plot = Plot()
+    plot.plot(data_map, False)
 
-    SA = SimulatedAnnealing(i)
+    # Run simulated annealing experiments
+    for i in range(1, 5):
+        print 'Running simulated annealing for type %d:' % i
 
-    new_map = SA.anneal(data_map)
-    print 'Cost: %d' % SA_final.cost(new_map)
-    plot.plot(new_map, False, i)
+        SA = SimulatedAnnealing(i)
 
-# Run k-means
-dropoff_zones = data_map.dropoff_zones.keys()
-K = len(dropoff_zones)
-locations = data_map.coordinates.keys()
+        new_map = SA.anneal(data_map)
+        cost = SA_final.cost(new_map)
+        print 'Cost: %d' % cost
+        averages[i] += cost
+        plot.plot(new_map, False, i)
 
-k_means = KMeans(K, dropoff_zones, locations, data_map)
+    # Run k-means
+    dropoff_zones = data_map.dropoff_zones.keys()
+    K = len(dropoff_zones)
+    locations = data_map.coordinates.keys()
 
-print 'Running k-means clustering:'
-print 'Cost: %d' % k_means.run()
+    k_means = KMeans(K, dropoff_zones, locations, data_map)
+
+    print 'Running k-means clustering:'
+    kmeans_cost = k_means.run()
+    print 'Cost: %d' % kmeans_cost
+    averages[5] += kmeans_cost
+
+print map(lambda x: x / 100, averages)

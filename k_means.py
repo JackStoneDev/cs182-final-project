@@ -78,7 +78,7 @@ class KMeans:
 
             x = 0 if length == 0 else sum_x / length
             y = 0 if length == 0 else sum_y / length
-            
+
             self.centers[i] = (x, y)
 
     # Plots points
@@ -107,9 +107,7 @@ class KMeans:
 
         # Plot centers
         plt.scatter(zip(*self.centers)[0], zip(*self.centers)[1], c='r')
-        plt.draw()
         plt.savefig('results/k_means.png')
-        plt.pause(5)
 
     # Runs k-means
     def run(self):
