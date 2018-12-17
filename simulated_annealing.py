@@ -1,6 +1,7 @@
 import random
 import numpy as np
 import math
+import copy
 
 # Simulated annealing class
 class SimulatedAnnealing:
@@ -138,8 +139,8 @@ class SimulatedAnnealing:
                 ap = self.acceptance_probability(old_cost, new_cost, T)
 
                 # If new solution is accepted then we update
-                if ap > random.random():
-                    map.dropoff_zones = new_map.dropoff_zones
+                if ap > random.random() or new_cost < old_cost:
+                    map.dropoff_zones = copy.deepcopy(new_map.dropoff_zones)
                     old_cost = new_cost
 
                 i += 1
