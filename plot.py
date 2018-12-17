@@ -11,13 +11,21 @@ class Plot:
         plt.xlim(0, map.map_size)
         plt.ylim(0, map.map_size)
 
-        # Break up x and y coordinates into their own list
-        x, y = zip(*map.coordinates)
-        x = list(x)
-        y = list(y)
+        # Get x and y points
+        x = []
+        y = []
+        colors = []
 
-        # Plot locations
-        plt.scatter(x, y, c='g')
+        # Scale color by population density then plot
+        for location in map.coordinates.keys():
+            x.append(location[0])
+            y.append(location[1])
+
+            population_density = map.coordinates[location]['population_density']
+            colors.append((0, 1.0, 0, population_density / map.max_population_density))
+
+        # Plot city locations
+        plt.scatter(x, y, color=colors)
 
         # Break up x and y coordinates into their own list
         x, y = zip(*map.dropoff_zones)

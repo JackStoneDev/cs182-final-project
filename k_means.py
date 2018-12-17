@@ -88,18 +88,20 @@ class KMeans:
         plt.ylim(0, self.map.map_size)
 
         # Get x and y points
-        x, y = zip(*self.points)
-        x = list(x)
-        y = list(y)
+        x = []
+        y = []
+        colors = []
 
-        if len(self.clusters[0]) == 0:
-            plt.scatter(x, y, c='g')
-        else:
-            for cluster in self.clusters:
-                try:
-                    plt.scatter(zip(*cluster)[0], zip(*cluster)[1], c='g')
-                except:
-                    continue
+        # Scale color by population density
+        for location in self.map.coordinates.keys():
+            x.append(location[0])
+            y.append(location[1])
+
+            population_density = self.map.coordinates[location]['population_density']
+            colors.append((0, 1.0, 0, population_density / self.map.max_population_density))
+
+        # Plot city locations
+        plt.scatter(x, y, color=colors)
 
         # Plot centers
         plt.scatter(zip(*self.centers)[0], zip(*self.centers)[1], c='r')
