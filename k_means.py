@@ -76,7 +76,10 @@ class KMeans:
                 sum_x += p[0]
                 sum_y += p[1]
 
-            self.centers[i] = (sum_x / length, sum_y / length)
+            x = 0 if length == 0 else sum_x / length
+            y = 0 if length == 0 else sum_y / length
+            
+            self.centers[i] = (x, y)
 
     # Plots points
     def plot(self):
