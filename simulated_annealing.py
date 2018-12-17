@@ -2,6 +2,7 @@ import random
 import numpy as np
 import math
 import copy
+import matplotlib.pyplot as plt
 
 # Simulated annealing class
 class SimulatedAnnealing:
@@ -116,9 +117,9 @@ class SimulatedAnnealing:
                 if self.type == 4:
                     return math.exp((old_cost - new_cost) / T)
                 if self.type == 3:
-                    return math.exp((old_cost - new_cost) / 1000 / T)
+                    return math.exp((old_cost - new_cost) / 10000 / T)
                 if self.type == 2:
-                    return math.exp((old_cost - new_cost) / 1000 / T)
+                    return math.exp((old_cost - new_cost) / 10000 / T)
                 else:
                     return math.exp((old_cost - new_cost) / T)
         except OverflowError:
@@ -128,13 +129,17 @@ class SimulatedAnnealing:
     def anneal(self, map):
         # Get cost of the input
         old_cost = self.cost(map)
+        initial_cost = self.cost(map)
 
         # Initialize annealing values
         T = 1.0
-        T_min = 0.01
+        T_min = 0.001
         decay = 0.9
 
         final_map = copy.deepcopy(map)
+
+        iterations = 0
+        graph_data = []
 
         # Iterate until we hit the max number of iterations
         while T > T_min:
@@ -142,6 +147,7 @@ class SimulatedAnnealing:
 
             # Generate 100 unique neighbors
             while i <= 50:
+                iterations += 1
                 new_map = self.neighbor(map)
                 new_cost = self.cost(new_map)
                 ap = self.acceptance_probability(old_cost, new_cost, T)
@@ -151,9 +157,25 @@ class SimulatedAnnealing:
                     map = copy.deepcopy(new_map)
                     final_map = copy.deepcopy(new_map)
                     old_cost = new_cost
+                    graph_data.append((iterations, old_cost))
 
                 i += 1
 
             T *= decay
+
+        plt.clf()
+        
+        plt.xlim(0, iterations)
+        plt.ylim(0, initial_cost)
+
+        # Break up x and y coordinates into their own list
+        x, y = zip(*graph_data)
+        x = list(x)
+        y = list(y)
+
+        # Plot dropoff zones
+        plt.plot(x, y, c='r')
+
+        plt.savefig('graph_simulated_annealing_%d.png' % self.type)
 
         return final_map
