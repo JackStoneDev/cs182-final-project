@@ -110,14 +110,17 @@ class SimulatedAnnealing:
     # Calculates acceptance probability for a new map solution
     def acceptance_probability(self, old_cost, new_cost, T):
         try:
-            if self.type == 4:
-                return math.exp(1 / T)
+            if new_cost <= old_cost:
+                return 1
             else:
-                if new_cost <= old_cost:
-                    return 1
+                if self.type == 4:
+                    return math.exp((old_cost - new_cost) / T)
+                if self.type == 3:
+                    return math.exp((old_cost - new_cost) / 1000 / T)
+                if self.type == 2:
+                    return math.exp((old_cost - new_cost) / 1000 / T)
                 else:
-                    ap = math.exp((old_cost - new_cost) / 10000 / T)
-                    return ap
+                    return math.exp((old_cost - new_cost) / T)
         except OverflowError:
             return float('inf')
 
