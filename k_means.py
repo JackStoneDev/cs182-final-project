@@ -51,7 +51,6 @@ class KMeans:
 
                 # Calculate distance from location to zone
                 dist = np.linalg.norm(np.subtract(p, self.centers[i]))
-
                 dist += (dist / self.max_distance) * self.map.coordinates[p]['population_density']
 
                 # Take minimum distance
@@ -110,7 +109,28 @@ class KMeans:
 
     # Runs k-means
     def run(self):
-        self.plot()
         # Loop through clusters
         self.fit()
+
+        # Calculate cost
+        num_points = 0
+        sum = 0
+
+        # Loop through clusters
+        for i in range(len(self.clusters)):
+            # Get cluster and center
+            cluster = self.clusters[i]
+            center = self.centers[i]
+
+            # Loop through city locations
+            for p in cluster:
+                # Calculate distance from location to nearest dropoff zone
+                distance = np.linalg.norm(np.subtract(p, center))
+                population_density = self.map.coordinates[p]['population_density']
+                sum += distance + (distance / self.max_distance) * population_density
+                num_points += 1
+
         self.plot()
+
+        # Return cost
+        return sum / num_points
