@@ -1,7 +1,6 @@
 import random
 import numpy as np
 import math
-from plot import Plot
 
 # Simulated annealing class
 class SimulatedAnnealing:
@@ -15,6 +14,7 @@ class SimulatedAnnealing:
     # 4: Same cost function as 3 but with a different acceptance probability
     def __init__(self, type):
         self.type = type
+        self.max_distance = 10
 
     # Calculates "cost" of a particular map by taking the average over all locations of minimum distance to another node
     def cost(self, map):
@@ -118,10 +118,6 @@ class SimulatedAnnealing:
 
     # Performs simulated annealing on a city map
     def anneal(self, map):
-        # Plot old map
-        plot = Plot()
-        plot.plot(map)
-
         # Get cost of the input
         old_cost = self.cost(map)
 
@@ -149,8 +145,5 @@ class SimulatedAnnealing:
                 i += 1
 
             T *= alpha
-
-        # Plot new map
-        plot.plot(new_map, False)
 
         return map
