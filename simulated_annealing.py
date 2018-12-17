@@ -164,7 +164,7 @@ class SimulatedAnnealing:
             T *= decay
 
         plt.clf()
-        
+
         plt.xlim(0, iterations)
         plt.ylim(0, initial_cost)
 
@@ -176,6 +176,6 @@ class SimulatedAnnealing:
         # Plot dropoff zones
         plt.plot(x, y, c='r')
 
-        plt.savefig('graph_simulated_annealing_%d.png' % self.type)
+        plt.savefig('results/graph_simulated_annealing_%d.png' % self.type)
 
         return final_map
