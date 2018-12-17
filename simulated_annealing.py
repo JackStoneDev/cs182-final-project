@@ -132,7 +132,7 @@ class SimulatedAnnealing:
         # Initialize annealing values
         T = 1.0
         T_min = 0.01
-        alpha = 0.9
+        decay = 0.9
 
         final_map = copy.deepcopy(map)
 
@@ -154,6 +154,6 @@ class SimulatedAnnealing:
 
                 i += 1
 
-            T *= alpha
+            T *= decay
 
         return final_map
