@@ -7,6 +7,15 @@ from plot import Plot
 class SimulatedAnnealing:
     max_distance = 10
 
+    # Constructor
+    # Accepts argument for which "type" of simulated annealing we are running
+    # 1: Cost function just based on distance
+    # 2: Cost function based on distance + population density
+    # 3: Cost function based on distance + population density with a penalty on population density according to Euclidean distance
+    # 4: Same cost function as 3 but with a different acceptance probability
+    def __init__(self, type):
+        self.type = type
+
     # Calculates "cost" of a particular map by taking the average over all locations of minimum distance to another node
     def cost(self, map):
         # Get all dropoff zones of map
@@ -37,7 +46,14 @@ class SimulatedAnnealing:
                 min_distance = min(min_distance, distance)
 
             # Add minimum distance to sum
-            sum += min_distance + (min_distance / self.max_distance) * map.coordinates[location]['population_density']
+            population_density = map.coordinates[location]['population_density']
+
+            if self.type == 1:
+                sum += min_distance
+            elif self.type == 2:
+                sum += min_distance + population_density
+            else:
+                sum += min_distance + (min_distance / self.max_distance) * population_density
 
         # Return average of distances
         return sum / num_coordinates
@@ -93,7 +109,10 @@ class SimulatedAnnealing:
     # Calculates acceptance probability for a new map solution
     def acceptance_probability(self, old_cost, new_cost, T):
         try:
-            return math.exp((new_cost - old_cost) / T)
+            if self.type == 4:
+                return math.exp(1 / T)
+            else:
+                return math.exp((new_cost - old_cost) / T)
         except OverflowError:
             return float('inf')
 

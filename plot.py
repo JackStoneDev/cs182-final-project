@@ -42,4 +42,4 @@ class Plot:
         if should_pause:
             plt.pause(0.0001)
         else:
-            plt.pause(10000)
+            plt.pause(5)
