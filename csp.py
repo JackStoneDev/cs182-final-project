@@ -2,7 +2,7 @@ from map import Map
 from simulated_annealing import SimulatedAnnealing
 from k_means import KMeans
 
-data_map = Map(30)
+data_map = Map(25)
 
 for i in range(20):
     data_map.add_random_location()
