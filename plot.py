@@ -38,7 +38,7 @@ class Plot:
         # Show plot
         plt.draw()
 
-        plt.savefig('simulated_annealing_%d.png' % type)
+        plt.savefig('results/simulated_annealing_%d.png' % type)
 
         # Are we continuing with the graph display?
         if should_pause:
