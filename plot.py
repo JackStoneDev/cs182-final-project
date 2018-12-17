@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 # Graph plotting class
 class Plot:
     # Plots city map
-    def plot(self, map, should_pause=True):
+    def plot(self, map, should_pause=True, type=0):
         # Clear all previous points
         plt.clf()
 
@@ -37,6 +37,8 @@ class Plot:
 
         # Show plot
         plt.draw()
+
+        plt.savefig('simulated_annealing_%d.png' % type)
 
         # Are we continuing with the graph display?
         if should_pause:

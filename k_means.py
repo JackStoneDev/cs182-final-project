@@ -105,6 +105,7 @@ class KMeans:
         # Plot centers
         plt.scatter(zip(*self.centers)[0], zip(*self.centers)[1], c='r')
         plt.draw()
+        plt.savefig('k_means.png')
         plt.pause(5)
 
     # Runs k-means
