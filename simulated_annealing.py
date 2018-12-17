@@ -92,7 +92,10 @@ class SimulatedAnnealing:
 
     # Calculates acceptance probability for a new map solution
     def acceptance_probability(self, old_cost, new_cost, T):
-        return math.exp((new_cost - old_cost) / T)
+        try:
+            return math.exp((new_cost - old_cost) / T)
+        except OverflowError:
+            return float('inf')
 
     # Performs simulated annealing on a city map
     def anneal(self, map):
