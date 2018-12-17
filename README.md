@@ -3,4 +3,4 @@
 ## Running locally
 
 - `pip2 install numpy matplotlib`
-- `python2 csp.py`
+- `python2 algorithm.py`
