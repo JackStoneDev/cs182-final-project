@@ -169,9 +169,13 @@ class SimulatedAnnealing:
         plt.ylim(0, initial_cost)
 
         # Break up x and y coordinates into their own list
-        x, y = zip(*graph_data)
-        x = list(x)
-        y = list(y)
+        try:
+            x, y = zip(*graph_data)
+            x = list(x)
+            y = list(y)
+        except ValueError:
+            x = []
+            y = []
 
         # Plot dropoff zones
         plt.plot(x, y, c='r')
