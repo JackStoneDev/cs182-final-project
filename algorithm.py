@@ -19,7 +19,7 @@ averages = [0.0] * 6
 num_iterations = 100
 print 'Running simulated annealing and k-means clustering %d times' % num_iterations
 
-for i in range(0, 100):
+for i in range(0, num_iterations):
     print 'Pass %d' % (i + 1)
     # Show initial map cost
     SA_final = SimulatedAnnealing(3)
