@@ -16,7 +16,11 @@ for i in range(5):
 
 averages = [0.0] * 6
 
+num_iterations = 100
+print 'Running simulated annealing and k-means clustering %d times' % num_iterations
+
 for i in range(0, 100):
+    print 'Pass %d' % (i + 1)
     # Show initial map cost
     SA_final = SimulatedAnnealing(3)
     initial_map_cost = SA_final.cost(data_map)
@@ -51,4 +55,5 @@ for i in range(0, 100):
     print 'Cost: %d' % kmeans_cost
     averages[5] += kmeans_cost
 
-print map(lambda x: x / 100, averages)
+# Print average costs
+print map(lambda x: x / num_iterations, averages)
